@@ -1,0 +1,92 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle" >@style/myActionBarStyle</item>
+    </style>
+
+    <style name="myActionBarStyle" parent="Widget.AppCompat.Light.ActionBar" >
+        <item name="android:titleTextStyle">@style/AcBar_titleStyle</item>
+    </style>
+
+    <style name="StyledIndicators" parent="@android:style/Theme.Light">
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
+    </style>
+
+    <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">
+        <item name="android:background">@drawable/custom_tab_indicator</item>
+        <item name="android:textAppearance">@style/CustomTabPageIndicator.Text</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:divider">@drawable/tabs_pattern</item>
+        <item name="android:dividerPadding">10dp</item>
+        <item name="android:showDividers">middle</item>
+        <item name="android:paddingLeft">@dimen/logo_margin_top</item>
+        <item name="android:paddingRight">@dimen/logo_margin_top</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:fadingEdgeLength">8dp</item>
+    </style>
+
+    <style name="CustomTabPageIndicator.Text" parent="android:TextAppearance.Medium">
+        <item name="android:typeface">monospace</item>
+    </style>
+
+    <style name="AcBar_titleStyle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="BaseText">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+
+    <style name="Text16Gray" parent="BaseText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/layout_base_padding</item>
+        <item name="android:textColor">@color/room_title_type</item>
+    </style>
+
+    <style name="Text16Black" parent="BaseText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/layout_base_padding</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="Text20Black" parent="BaseText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/layout_base_padding</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="LoginEditText" parent="BaseText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingTop">@dimen/layout_base_padding</item>
+        <item name="android:paddingBottom">@dimen/layout_base_padding</item>
+        <item name="android:paddingLeft">@dimen/logo_text_padding_left</item>
+        <item name="android:layout_marginLeft">@dimen/logo_margin_top</item>
+        <item name="android:layout_marginRight">@dimen/logo_margin_top</item>
+        <item name="android:textColor">@color/login_text_color</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="LoginImage" parent="BaseText">
+        <item name="android:layout_margin">12dp</item>
+    </style>
+
+    <style name="LoginButton" parent="BaseText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/logo_margin_top</item>
+        <item name="android:layout_marginRight">@dimen/logo_margin_top</item>
+        <item name="android:layout_marginTop">@dimen/logo_margin_top</item>
+
+    </style>
+</resources>

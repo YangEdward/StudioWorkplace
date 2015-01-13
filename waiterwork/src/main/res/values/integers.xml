@@ -1,0 +1,4 @@
+<resources>
+    <item name="column_number" type="integer">4</item>
+    <item name="ripple_duration" type="integer">200</item>
+</resources>

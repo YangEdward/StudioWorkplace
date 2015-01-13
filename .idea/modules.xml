@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/StudioWorkplace.iml" filepath="$PROJECT_DIR$/StudioWorkplace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pageindicator/pageindicator.iml" filepath="$PROJECT_DIR$/pageindicator/pageindicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/waiterwork/waiterwork.iml" filepath="$PROJECT_DIR$/waiterwork/waiterwork.iml" />
+    </modules>
+  </component>
+</project>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ripple_Color">#FFFFFF</color>
+    <color name="room_title_type">#4D4D4D</color>
+
+    <color name="login_background">#eef3f4</color>
+    <color name="login_edit_solid">#f9f9f9</color>
+    <color name="normal_background">#f9f9f9</color>
+    <color name="login_text_color">#c3c8c9</color>
+    <color name="ripple_color">#FF3fb6e5</color>
+
+    <color name="card_title_color">#FFFcf5c6</color>
+    <color name="tab_title_color">#FF3fb6e5</color>
+
+    <color name="divider_color">#E6B45A</color>
+    <color name="idle_room">#FFFFFFFF</color>
+    <color name="need_clean">#FFBFBFBF</color>
+    <color name="used_room">#FF6BB601</color>
+
+    <color name="reser_color">#CCCCCC</color>
+    <color name="middle_horizontal_line">#DA9D49</color>
+
+    <color name="floor_color">#98CD00</color>
+</resources>

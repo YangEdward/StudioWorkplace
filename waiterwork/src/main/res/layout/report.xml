@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bestride.view.gridheader.HeadersGridView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/floorStatus"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/layout_base_padding"
+    android:horizontalSpacing="@dimen/divider_height"
+    android:verticalSpacing="@dimen/divider_height"
+    android:padding="@dimen/layout_base_padding"
+    android:background="@android:color/transparent"
+    android:cacheColorHint="#00000000"
+    android:listSelector="@android:color/transparent"
+    android:numColumns="@integer/column_number" >
+
+</com.bestride.view.gridheader.HeadersGridView>

@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:rv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_background">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/logo_pic_margin_top"/>
+
+    <EditText
+        android:id="@+id/LoginName"
+        style="@style/LoginEditText"
+        android:hint="@string/user_name"
+        android:background="@drawable/login_text_background"
+        android:paddingLeft="@dimen/logo_text_padding_left"
+        android:layout_marginTop="@dimen/logo_margin_top"
+        android:layout_below="@+id/logo"/>
+    <ImageView
+        style="@style/LoginImage"
+        android:src="@drawable/user"
+        android:layout_alignLeft="@+id/LoginName"
+        android:layout_alignTop="@+id/LoginName"/>
+
+    <EditText
+        android:id="@+id/LoginPassword"
+        style="@style/LoginEditText"
+        android:layout_below="@+id/LoginName"
+        android:layout_marginTop="-2dp"
+        android:background="@drawable/login_text_bottom"
+        android:hint="@string/key"
+        android:paddingLeft="@dimen/logo_text_padding_left"/>
+    <ImageView
+        style="@style/LoginImage"
+        android:src="@drawable/key"
+        android:paddingTop="1dp"
+        android:layout_alignLeft="@+id/LoginPassword"
+        android:layout_alignTop="@+id/LoginPassword"/>
+    <com.bestride.view.RippleView
+        android:id="@+id/login"
+        android:layout_below="@+id/LoginPassword"
+        rv:rv_color="@color/ripple_Color"
+        style="@style/LoginButton">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_button"
+            android:text="@string/login"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
+    </com.bestride.view.RippleView>
+</RelativeLayout>

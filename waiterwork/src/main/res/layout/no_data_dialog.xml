@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    
+    <TextView 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_above="@+id/getAgain"
+		android:gravity="center"
+		android:layout_marginBottom="@dimen/activity_vertical_margin"
+	    android:text="@string/get_data_error"/>
+    
+	<Button 
+	    android:id="@+id/getAgain"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:text="@string/get_data_again"/>
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_fixed_width_major"
+    android:layout_height="match_parent"
+    android:background="@color/normal_background"
+    android:orientation="vertical">
+    
+	<TextView 
+	    android:id="@+id/title"
+	    style="@style/Text20Black"
+	    android:labelFor="@+id/value"
+	    android:layout_marginTop="@dimen/layout_base_padding"
+	    android:layout_marginLeft="@dimen/activity_vertical_margin"/>
+	
+	<EditText 
+	    android:id="@+id/value"
+	    android:layout_width="match_parent"
+	    style="@style/Text20Black"
+        android:background="@color/normal_background"
+	    android:layout_marginTop="@dimen/layout_base_padding"
+	    android:layout_marginLeft="@dimen/activity_vertical_margin"
+	    android:layout_marginRight="@dimen/activity_vertical_margin"/>
+	
+	<include 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="@dimen/layout_base_padding"
+	    android:layout_marginBottom="@dimen/layout_base_padding"
+	    layout="@layout/dialog_button"/>
+</LinearLayout>
+

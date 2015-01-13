@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bestride.view.RippleView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/room_width"
+    android:layout_height="@dimen/room_width"
+    android:background="@drawable/room_background">
+
+    <TextView
+        android:id="@+id/roomNumber"
+        style="@style/Text20Black"
+        android:layout_centerInParent="true"/>
+</com.bestride.view.RippleView>
+

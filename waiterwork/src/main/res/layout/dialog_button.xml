@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+    
+    <Button 
+	    android:id="@+id/DialogCancel"
+	    style="@style/Text20Black"
+	    android:layout_weight="1"
+	    android:layout_marginLeft="@dimen/activity_vertical_margin"
+	    android:background="@drawable/cancel"
+	    android:text="@string/cancel"/>
+
+    <Button 
+	    android:id="@+id/DialogConform"
+	    style="@style/Text20Black"
+	    android:layout_weight="1"
+	    android:layout_marginLeft="@dimen/activity_vertical_margin"
+	    android:layout_marginRight="@dimen/activity_vertical_margin"
+	    android:background="@drawable/conform"
+	    android:text="@string/conform"/>
+    
+</LinearLayout>
