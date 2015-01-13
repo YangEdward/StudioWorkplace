@@ -40,7 +40,7 @@ public class ReportFragment extends BaseFragment implements AdapterView.OnItemCl
         floorStatus.setOnItemClickListener(this);
         mAdapter = new FloorHeaderAdapter(rooms, getActivity());
         floorStatus.setAdapter(mAdapter);
-        for (int i = 0; i<20; i++){
+        /*for (int i = 0; i<20; i++){
             rooms.add(new Room());
         }
         for (int i = 0; i<20; i++){
@@ -53,8 +53,8 @@ public class ReportFragment extends BaseFragment implements AdapterView.OnItemCl
             room.setFloor(12);
             rooms.add(room);
         }
-        mAdapter.notifyDataSetChanged();
-        //getRoomInformation();
+        mAdapter.notifyDataSetChanged();*/
+        getRoomInformation();
     }
 
     @Override

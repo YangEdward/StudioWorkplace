@@ -58,14 +58,14 @@ public class WorkAdapter extends BookBaseAdapter {
 			holder.roomNumber.setText(mWork.getRoomno());
             holder.workTime.setText(mWork.getDispatchingdate());
             holder.workContent.setText(mWork.getTypecode());
-            if(mWork.getTypecode().equals("CS")){
-                holder.workImage.setImageDrawable(mContext.getResources().
-                        getDrawable(R.drawable.clean));
-                holder.workFinished.setOnClickListener(new HandleClickListener(position));
-            }else{
+            if(mWork.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
                 holder.workImage.setImageDrawable(mContext.getResources().
                         getDrawable(R.drawable.check_out));
                 holder.rippleView.setVisibility(View.GONE);
+            }else{
+                holder.workImage.setImageDrawable(mContext.getResources().
+                        getDrawable(R.drawable.clean));
+                holder.workFinished.setOnClickListener(new HandleClickListener(position));
             }
 			return v;
 		}else{

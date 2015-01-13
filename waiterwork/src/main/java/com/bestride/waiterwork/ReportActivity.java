@@ -47,7 +47,7 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     @SystemService
     WindowManager windowManager;
     //@Extra(FinalValue.REPORT_DETAIL)
-    Room roomDetail;
+    private Room roomDetail;
     private List<Object> miniBar = new ArrayList<>();
     private MiniAdapter miniAdapter;
     private List<ReportDetail> detail = new ArrayList<>();
@@ -67,12 +67,12 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         recycleView.setOnItemClickListener(this);
         roomDetail = getIntent().getParcelableExtra(FinalValue.REPORT_DETAIL);
         setTitle(roomDetail.getRoomno()+getString(R.string.mini_detail));
-        for (int i = 0; i<20; i++){
+        /*for (int i = 0; i<20; i++){
             miniBar.add(new Goods());
         }
 
-        miniAdapter.notifyDataSetChanged();
-        //getDetails();
+        miniAdapter.notifyDataSetChanged();*/
+        getDetails();
     }
 
     protected void getAgainListener(){
@@ -134,6 +134,7 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         int itemId = v.getId();
         getCosts();
+        reportFlag = FinalValue.OVER_REPORT;
         switch (itemId){
             case R.id.normalReport:
                 if(detail.size() == 0){
@@ -141,7 +142,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
                 }
                 reportFlag = FinalValue.NORMAL_REPORT;
             case R.id.overReport:
-                reportFlag = FinalValue.OVER_REPORT;
                 submitConform();
                 break;
         }

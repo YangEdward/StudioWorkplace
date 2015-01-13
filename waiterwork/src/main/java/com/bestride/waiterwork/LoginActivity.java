@@ -1,12 +1,6 @@
 package com.bestride.waiterwork;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -16,12 +10,8 @@ import com.bestride.data.back.LoginEntity;
 import com.bestride.data.helper.JsonTree;
 import com.bestride.data.post.LoginPost;
 import com.bestride.helper.FinalValue;
-import com.bestride.helper.SPUtils;
 import com.bestride.view.RippleView;
 import com.google.gson.JsonObject;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import com.ygledward.async.future.FutureCallback;
 import com.ygledward.ion.Ion;
 
@@ -29,10 +19,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.apache.http.Header;
 
 @EActivity(R.layout.login)
-public class LoginActivity extends BaseActivity implements OnClickListener,TextWatcher{
+public class LoginActivity extends BaseActivity implements OnClickListener {//,TextWatcher{
 
     @ViewById(R.id.LoginName) EditText name;
     @ViewById(R.id.LoginPassword) EditText password;
@@ -43,9 +32,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
     }
 	@AfterViews void initView(){
 		findViewById(R.id.login).setOnClickListener(this);
-		name.addTextChangedListener(this);
-		name.setText("admin");
-		password.setText("123456");
+		//name.addTextChangedListener(this);
+		//name.setText("admin");
+		//password.setText("123456");
 	}
 
     @Override
@@ -56,7 +45,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 
     @Override
 	public void onClick(View v) {
-        startActivity(new Intent(this,MainActivity_.class));
 		if(name.getText().toString().isEmpty()){
 			showInformation(getString(R.string.please_input_name),true);
 			return;
@@ -76,7 +64,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 		v.setEnabled(false);
 		JsonObject json = JsonTree.toJson(new LoginPost(name.getText().toString(), 
 				password.getText().toString()));
-		Log.e("LoginActivity", json.toString());
 		Ion.with(this)
 		.load(FinalValue.LOGIN_POST)
 		.setJsonObjectBody(json)
@@ -89,7 +76,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 				   showInformation(getString(R.string.please_check_your_internet),true);
 				   return;
 			   }
-			   Log.e("LoginActivity", result.toString());
 			   LoginEntity response = JsonTree.fromJson(result, LoginEntity.class);
 			   if(response.isSuccess()){
 				   HotelApplication app = HotelApplication.getInstance();
@@ -104,7 +90,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 				   }
 				   app.setManHotel(true);
 				   app.setDispatch(true);
-				   loginSuccess(response.getMessageInfo());
+                   turnToMainActivity(response.getMessageInfo());
+				   //loginSuccess(response.getMessageInfo());
 			   }else{
 				   showInformation(response.getMessageInfo(),true);
 			   }
@@ -114,11 +101,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 
     @UiThread
 	void loginSuccess(String infor){
-		SharedPreferences sp = getSharedPreferences(FinalValue.BOOK_HOTEL, 
+		/*SharedPreferences sp = getSharedPreferences(FinalValue.BOOK_HOTEL,
 				Context.MODE_PRIVATE);
 		String key = name.getText().toString();
 		Editor mE = sp.edit();
-		/*if(isRemember.isChecked()){
+		if(isRemember.isChecked()){
 			mE.putString(key, password.getText().toString());
 			mE.commit();
 		}else{
@@ -144,7 +131,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 	
 
 
-	@Override
+	/*@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
 		
@@ -157,14 +144,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 		String paw = sp.getString(name.getText().toString(), null);
 		if(paw != null){
 			password.setText(paw);
-			/*isRemember.setChecked(true);*/
+			*//*isRemember.setChecked(true);*//*
 		}
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
 		
-	}
+	}*/
 	
 	private void startICometService(String uname) {
 		Intent service = new Intent(getApplicationContext(), ICometService.class);
@@ -179,7 +166,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 		showInformation(infor,false);
 		startActivity(new Intent(this,MainActivity_.class));
 	}
-	protected void doLogin(final String uname,final String infor) {
+	/*protected void doLogin(final String uname,final String infor) {
 //		mProgressDialog = UIUtils.showProgressDialog(LoginActivity.this, "");
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.setEnableRedirects(false);
@@ -190,10 +177,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				super.onSuccess(arg0, arg1, arg2);
 //				dismissDialog();
-				/*for (Header h : arg1) {
+				*//*for (Header h : arg1) {
 					Log.d("SU_HEADER: ", "name: " + h.getName() + "  value: " + h.getValue());
 				}
-				Log.d("success content: ", new String(arg2));*/
+				Log.d("success content: ", new String(arg2));*//*
 //				Log.d(TAG, "success");
 				String cookie;
 				for (Header h : arg1) {
@@ -228,6 +215,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,TextW
 			}
 		});
 
-	}
+	}*/
 
 }

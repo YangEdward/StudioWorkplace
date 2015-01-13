@@ -1,18 +1,28 @@
 package com.bestride.waiterwork;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.bestride.comet.ICometService;
+import com.bestride.data.helper.MessageJsonBean;
 import com.bestride.fragment.MyWorkFragment_;
 import com.bestride.fragment.ReportFragment_;
 import com.bestride.helper.FinalValue;
+import com.bestride.helper.UIUtils;
 import com.bestride.pageindicator.IconPagerAdapter;
 import com.bestride.pageindicator.TabPageIndicator;
 import com.bestride.view.BadgeView;
 import com.github.johnpersano.supertoasts.SuperToast;
+import com.kyleduo.icomet.message.Message;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.ygledward.ion.Ion;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,6 +30,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 
 @NoTitle
 @EActivity(R.layout.main)
@@ -27,6 +38,9 @@ public class MainActivity extends FragmentActivity{
 
     @ViewById ViewPager pager;
     @ViewById static TabPageIndicator indicator;
+    private MyWorkFragment_ myWork;
+    private InnerMessageReceiver mReceiver;
+
     private static final String[] CONTENT = new String[] {
             "我的工作","报吧",
     };
@@ -47,6 +61,27 @@ public class MainActivity extends FragmentActivity{
         setInformationTip(new BadgeView(this),"10");
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mReceiver == null) {
+            mReceiver = new InnerMessageReceiver();
+        }
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(FinalValue.ACTION_MESSAGE_ARRIVED);
+        filter.setPriority(100);
+        registerReceiver(mReceiver, filter);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
+    }
+
     public static void setInformationTip(BadgeView badge,String value){
         badge.setTargetView(indicator.getTabView(0));
         badge.setText(value);
@@ -59,13 +94,12 @@ public class MainActivity extends FragmentActivity{
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment;
             if(position == 0){
-                fragment = new MyWorkFragment_();
+                myWork = new MyWorkFragment_();
+                return myWork;
             }else{
-                fragment = new ReportFragment_();
+                return new ReportFragment_();
             }
-            return fragment;
         }
 
         @Override
@@ -92,7 +126,8 @@ public class MainActivity extends FragmentActivity{
             exitTime = System.currentTimeMillis();
         } else {
             Ion.getDefault(this).getCookieMiddleware().clear();
-            super.onBackPressed();
+            logout();
+            //super.onBackPressed();
         }
     }
 
@@ -109,5 +144,33 @@ public class MainActivity extends FragmentActivity{
         superToast.setTextSize(SuperToast.TextSize.LARGE);
         superToast.setText(messageInfo);
         superToast.show();
+    }
+
+    private class InnerMessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Message.Content content = (Message.Content) intent.getSerializableExtra("content");
+            MessageJsonBean.MessageObj message = new MessageJsonBean.MessageObj(content);
+            UIUtils.PlaySound(MainActivity.this);
+            synchronized (message) {
+                myWork.updateWork(message);
+            }
+            abortBroadcast();
+        }
+    }
+    private void logout() {
+        AsyncHttpClient mHttpClient = new AsyncHttpClient();
+        mHttpClient.get(FinalValue.LOGIN_POST + "/login.php?do=logout", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
+                super.onSuccess(arg0, arg1, arg2);
+                ICometService.stopService();
+                Intent service = new Intent(MainActivity.this, ICometService.class);
+                MainActivity.this.stopService(service);
+                Ion.getDefault(MainActivity.this).getCookieMiddleware().clear();
+                MainActivity.super.onBackPressed();
+            }
+        });
     }
 }

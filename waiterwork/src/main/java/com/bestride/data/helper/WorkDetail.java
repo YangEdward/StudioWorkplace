@@ -3,6 +3,7 @@ package com.bestride.data.helper;
 public class WorkDetail {
 	
 	private String workid = "23";
+    private String roomid;
 	private String roomno = "1001";
 	private String typecode = "CS";
 	private int floor = 10;
@@ -61,5 +62,12 @@ public class WorkDetail {
 	public void setTaskstate(int taskstate) {
 		this.taskstate = taskstate;
 	}
-	
+
+    public String getRoomid() {
+        return roomid;
+    }
+
+    public void setRoomid(String roomid) {
+        this.roomid = roomid;
+    }
 }

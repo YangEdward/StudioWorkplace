@@ -1,14 +1,18 @@
 package com.bestride.fragment;
 
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.bestride.adapter.WorkAdapter;
 import com.bestride.data.back.RoomBack;
 import com.bestride.data.helper.JsonTree;
 import com.bestride.data.helper.MessageJsonBean;
+import com.bestride.data.helper.Room;
 import com.bestride.data.helper.WorkDetail;
 import com.bestride.data.post.WorkPost;
 import com.bestride.helper.FinalValue;
@@ -16,6 +20,7 @@ import com.bestride.view.BadgeView;
 import com.bestride.waiterwork.HotelApplication;
 import com.bestride.waiterwork.MainActivity_;
 import com.bestride.waiterwork.R;
+import com.bestride.waiterwork.ReportActivity_;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -35,11 +40,13 @@ import java.util.List;
  * Created by Administrator on 2015/1/8.
  */
 @EFragment(R.layout.my_work)
-public class MyWorkFragment extends BaseFragment implements View.OnClickListener{
+public class MyWorkFragment extends BaseFragment implements View.OnClickListener,
+        AdapterView.OnItemClickListener{
+
     @ViewById ListView recycleView;
     private WorkAdapter leftAdapter;
     private List<Object> left = new ArrayList<Object>();
-
+    private static int checkOutNumber;
 
     @AfterViews void initViews(){
         leftAdapter = new WorkAdapter(left, getActivity());
@@ -48,12 +55,12 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         assert mSwingButton.getViewAnimator() != null;
         mSwingButton.getViewAnimator().setInitialDelayMillis(FinalValue.INITIAL_DELAY_MILLIS);
         recycleView.setAdapter(mSwingButton);
-        for (int i = 0; i<20; i++){
+        /*for (int i = 0; i<20; i++){
             left.add(new WorkDetail());
         }
-        leftAdapter.notifyDataSetChanged();
+        leftAdapter.notifyDataSetChanged();*/
         //setTip();
-        //getMyWorks();
+        getMyWorks();
     }
 
     @Override
@@ -88,10 +95,14 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
                                 return;
                             }
                             left.clear();
+                            checkOutNumber = 0;
                             JsonArray worksArray = result.getAsJsonArray(FinalValue.ROOM_ARRAY);
                             for(int i = 0; i < worksArray.size(); i++){
                                 WorkDetail works = JsonTree.fromJson(worksArray.get(i), WorkDetail.class);
                                 left.add(works);
+                                if(works.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
+                                    checkOutNumber ++;
+                                }
                                 /*if(HotelApplication.isLeader){
                                     if(works.getTaskstate() == FinalValue.UNFINISHED
                                             || works.getTaskstate() == FinalValue.FINISHED){
@@ -123,9 +134,9 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         getMyWorks();
     }
 
-    @UiThread void setTip(){
+    @UiThread void setTip(int value){
         BadgeView badge = new BadgeView(getActivity());
-        MainActivity_.setInformationTip(badge,"32");
+        MainActivity_.setInformationTip(badge,""+value);
     }
     @UiThread void showGetAgainView(){
     }
@@ -135,9 +146,12 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
 
     private void updateUi(){
         leftAdapter.notifyDataSetChanged();
+        if(checkOutNumber > 0){
+            setTip(checkOutNumber);
+        }
     }
 
-    private void updateWork(MessageJsonBean.MessageObj message) {
+    public void updateWork(MessageJsonBean.MessageObj message) {
         if(!detach){
             return;
         }
@@ -160,8 +174,27 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
                 }
             }*/
             left.add(works);
+            if(works.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
+                checkOutNumber ++;
+            }
             updateUi();
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,
+                            long id) {
+        WorkDetail work = (WorkDetail) left.get(position);
+        if(work.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
+            Room room = new Room();
+            room.setRoomid(work.getRoomid());
+            room.setRoomno(work.getRoomno());
+            Intent intent = new Intent(getActivity(), ReportActivity_.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(FinalValue.REPORT_DETAIL,room);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 }
