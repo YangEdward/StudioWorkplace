@@ -58,7 +58,6 @@ public class MainActivity extends FragmentActivity{
         indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setBackgroundColor(getResources().getColor(R.color.tab_title_color));
         indicator.setViewPager(pager);
-        setInformationTip(new BadgeView(this),"10");
     }
 
     @Override
