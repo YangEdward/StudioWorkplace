@@ -124,8 +124,10 @@ public class MainActivity extends FragmentActivity{
             showInformation(getString(R.string.please_back_again), false);
             exitTime = System.currentTimeMillis();
         } else {
+
             Ion.getDefault(this).getCookieMiddleware().clear();
-            logout();
+            super.onBackPressed();
+            //logout();
             //super.onBackPressed();
         }
     }

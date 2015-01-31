@@ -125,6 +125,8 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
             if(good.getNumber() != 0){
                 ReportDetail reportChild = new ReportDetail(good.getGoodsname()
                         + "_" + good.getNumber(), (good.getSmallprice() * good.getNumber()));
+                reportChild.setBillid(good.getId());
+                reportChild.setPosid(good.getPosid());
                 detail.add(reportChild);
             }
         }
@@ -274,6 +276,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         superToast.setTextSize(SuperToast.TextSize.LARGE);
         superToast.setText(messageInfo);
         superToast.show();
-        findViewById(R.id.login).setEnabled(true);
+        findViewById(R.id.normalReport).setEnabled(true);
     }
 }

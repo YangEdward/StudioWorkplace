@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import com.bestride.adapter.WorkAdapter;
 import com.bestride.data.back.RoomBack;
+import com.bestride.data.helper.DespatchWork;
 import com.bestride.data.helper.JsonTree;
 import com.bestride.data.helper.MessageJsonBean;
 import com.bestride.data.helper.Room;
@@ -34,7 +35,10 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2015/1/8.
@@ -45,7 +49,8 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
 
     @ViewById ListView recycleView;
     private WorkAdapter leftAdapter;
-    private List<Object> left = new ArrayList<Object>();
+    private List<Object> left = new ArrayList<>();
+    public static Set<String> workIds = new HashSet<>();
     private static int checkOutNumber;
 
     @AfterViews void initViews(){
@@ -55,11 +60,6 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         assert mSwingButton.getViewAnimator() != null;
         mSwingButton.getViewAnimator().setInitialDelayMillis(FinalValue.INITIAL_DELAY_MILLIS);
         recycleView.setAdapter(mSwingButton);
-        /*for (int i = 0; i<20; i++){
-            left.add(new WorkDetail());
-        }
-        leftAdapter.notifyDataSetChanged();*/
-        //setTip();
         getMyWorks();
     }
 
@@ -68,7 +68,7 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         getMyWorks();
     }
 
-    public void getMyWorks(){
+    private void getMyWorks(){
         final HotelApplication app = (HotelApplication) getActivity().getApplication();
         WorkPost mWorkPost = new WorkPost(HotelApplication.sessionId,app.getUserName(),
                 app.getRole());
@@ -95,28 +95,18 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
                                 return;
                             }
                             left.clear();
+                            workIds.clear();
                             checkOutNumber = 0;
                             JsonArray worksArray = result.getAsJsonArray(FinalValue.ROOM_ARRAY);
                             for(int i = 0; i < worksArray.size(); i++){
-                                WorkDetail works = JsonTree.fromJson(worksArray.get(i), WorkDetail.class);
-                                left.add(works);
-                                if(works.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
-                                    checkOutNumber ++;
+                                DespatchWork works = JsonTree.fromJson(worksArray.get(i), DespatchWork.class);
+                                if(!workIds.contains(works.getWorkid())){
+                                    left.add(works);
+                                    workIds.add(works.getWorkid());
+                                    if(works.getServtype() == FinalValue.CHECK_OUT){
+                                        checkOutNumber ++;
+                                    }
                                 }
-                                /*if(HotelApplication.isLeader){
-                                    if(works.getTaskstate() == FinalValue.UNFINISHED
-                                            || works.getTaskstate() == FinalValue.FINISHED){
-                                        left.add(works);
-                                    }else{
-                                        right.add(works);
-                                    }
-                                }else{
-                                    if(works.getTaskstate() == FinalValue.UNFINISHED){
-                                        left.add(works);
-                                    }else{
-                                        right.add(works);
-                                    }
-                                }*/
                             }
                             if(left.size() > 0){
                                 updateUi();
@@ -157,25 +147,15 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         }
         Log.e(MyWorkFragment.class.getSimpleName(), message.text);
         String content = message.text.replace("&quot;", "\"");
-        WorkDetail works = new Gson().fromJson(content, WorkDetail.class);
         if(content != null && !content.isEmpty()){
-            /*if(HotelApplication.isLeader){
-                if(works.getTaskstate() == FinalValue.UNFINISHED
-                        || works.getTaskstate() == FinalValue.FINISHED){
-                    left.add(works);
-                }else{
-                    right.add(works);
+            WorkDetail workDetail = new Gson().fromJson(content, WorkDetail.class);
+            DespatchWork works = workDetail.getDatalist();
+            if(!workIds.contains(works.getWorkid())){
+                workIds.add(works.getWorkid());
+                left.add(works);
+                if(works.getServtype() == FinalValue.CHECK_OUT){
+                    checkOutNumber ++;
                 }
-            }else{
-                if(works.getTaskstate() == FinalValue.UNFINISHED){
-                    left.add(works);
-                }else{
-                    right.add(works);
-                }
-            }*/
-            left.add(works);
-            if(works.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
-                checkOutNumber ++;
             }
             updateUi();
         }
@@ -185,8 +165,8 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
-        WorkDetail work = (WorkDetail) left.get(position);
-        if(work.getTypecode().equals(FinalValue.CHECK_OUT_STATE)){
+        DespatchWork work = (DespatchWork) left.get(position);
+        if(work.getServtype() == FinalValue.CHECK_OUT){
             Room room = new Room();
             room.setRoomid(work.getRoomid());
             room.setRoomno(work.getRoomno());

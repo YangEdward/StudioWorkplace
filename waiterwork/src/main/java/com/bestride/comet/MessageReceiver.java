@@ -43,23 +43,17 @@ public class MessageReceiver extends BroadcastReceiver {
 		
 		String detail = message.text.replace("&quot;", "\"");
 		WorkDetail works = new Gson().fromJson(detail, WorkDetail.class);
-		String doing = "";
-		if(HotelApplication.isLeader){
-			if(works.getTaskstate() == FinalValue.UNFINISHED){
-				doing = context.getApplicationContext().getString(R.string.clean);
-			}else if(works.getTaskstate() == FinalValue.FINISHED){
-				doing = context.getApplicationContext().getString(R.string.please_acceptence);
-			}
-		}else{
-			if(works.getTaskstate() == FinalValue.UNFINISHED){
-				doing = context.getApplicationContext().getString(R.string.clean);
-			}
-		}
+        String doing = "";
+        if(works.getDatalist().getServtype() == FinalValue.CHECK_OUT){
+            doing = context.getApplicationContext().getString(R.string.check_out);
+        }else if (works.getDatalist().getServtype() == FinalValue.CLEAN){
+            doing = context.getApplicationContext().getString(R.string.clean);
+        }
 		Notification notification = new Notification.Builder(context.getApplicationContext())
 		.setWhen(System.currentTimeMillis())
 		.setSmallIcon(R.drawable.ic_launcher)
 //		.setContentTitle(message.from)
-		.setContentTitle(works.getRoomno())
+		.setContentTitle(works.getDatalist().getRoomno())
 //		.setContentText(message.text)
 		.setContentText(doing)
 		.setTicker(context.getString(R.string.dispatch_message))

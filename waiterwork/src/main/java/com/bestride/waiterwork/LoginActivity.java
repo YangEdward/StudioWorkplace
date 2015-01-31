@@ -33,8 +33,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
 	@AfterViews void initView(){
 		findViewById(R.id.login).setOnClickListener(this);
 		//name.addTextChangedListener(this);
-		//name.setText("admin");
-		//password.setText("123456");
+		name.setText("admin");
+		password.setText("123456");
 	}
 
     @Override

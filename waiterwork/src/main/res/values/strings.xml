@@ -44,6 +44,7 @@
     <!-- work list -->
     <string name="dispatch_message">派工消息</string>
     <string name="clean">打扫</string>
+    <string name="check_out">退房</string>
     <string name="work_finished">完工</string>
     <string name="please_acceptence">验收</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
