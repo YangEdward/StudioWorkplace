@@ -71,6 +71,7 @@ abstract class BaseFragment extends Fragment{
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT, 1);
         lp.setMargins(300, 200, 300, 200);
+        emptyView.setPadding(300, 200, 300, 200);
         group.addView(emptyView,lp);
         floorStatus.setEmptyView(emptyView);
         if(!isLoading){

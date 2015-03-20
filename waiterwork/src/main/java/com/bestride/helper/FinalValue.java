@@ -37,7 +37,7 @@ public class FinalValue {
 	/*internet connect*/
 	public static final int SUCCESS_CODE = 20;
 //	private static final String IP_ADDRESS = "http://192.168.2.160:9090/shmp/pms/";
-	private static final String IP_ADDRESS = "http://192.168.2.200:8081/pms/";
+	private static final String IP_ADDRESS = "http://192.168.2.200:8081/shmp/pms/";
 	public static final String BASE_URL = IP_ADDRESS + "fm/PAD/";
 	private static final String ROOM_URL = IP_ADDRESS + "rm/roomPAD/";
 	
