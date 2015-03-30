@@ -3,16 +3,16 @@ package com.bestride.data.post;
 public class HandlePost {
 
 	private String workid;
-	private String typecode;
+	private String hoteltype;
 	private String session_id;
 	private int handle;
 	
 	
-	public HandlePost(String workid, String typecode, String session_id,
+	public HandlePost(String workid, String hoteltype, String session_id,
 			int handle) {
 		super();
 		this.workid = workid;
-		this.typecode = typecode;
+		this.hoteltype = hoteltype;
 		this.session_id = session_id;
 		this.handle = handle;
 	}
@@ -22,13 +22,16 @@ public class HandlePost {
 	public void setWorkid(String workid) {
 		this.workid = workid;
 	}
-	public String getTypecode() {
-		return typecode;
-	}
-	public void setTypecode(String typecode) {
-		this.typecode = typecode;
-	}
-	public String getSession_id() {
+
+    public String getHoteltype() {
+        return hoteltype;
+    }
+
+    public void setHoteltype(String hoteltype) {
+        this.hoteltype = hoteltype;
+    }
+
+    public String getSession_id() {
 		return session_id;
 	}
 	public void setSession_id(String session_id) {

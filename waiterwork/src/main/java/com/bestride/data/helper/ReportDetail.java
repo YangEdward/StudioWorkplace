@@ -3,6 +3,8 @@ package com.bestride.data.helper;
 public class ReportDetail {
 	private String tradenote;
 	private double amount;
+    private String posid;
+    private String billid;
 	
 	public ReportDetail(String tradenote, double amount) {
 		super();
@@ -21,5 +23,20 @@ public class ReportDetail {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	
+
+    public String getPosid() {
+        return posid;
+    }
+
+    public void setPosid(String posid) {
+        this.posid = posid;
+    }
+
+    public String getBillid() {
+        return billid;
+    }
+
+    public void setBillid(String billid) {
+        this.billid = billid;
+    }
 }

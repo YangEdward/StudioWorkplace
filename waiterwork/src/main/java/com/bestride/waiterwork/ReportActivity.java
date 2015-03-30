@@ -48,9 +48,9 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     WindowManager windowManager;
     //@Extra(FinalValue.REPORT_DETAIL)
     private Room roomDetail;
-    private List<Object> miniBar = new ArrayList<Object>();
+    private List<Object> miniBar = new ArrayList<>();
     private MiniAdapter miniAdapter;
-    private List<ReportDetail> detail = new ArrayList<ReportDetail>();
+    private List<ReportDetail> detail = new ArrayList<>();
     private int reportFlag = 0;
 
     @AfterViews void initViews(){
@@ -194,9 +194,9 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
                 .setCallback(new FutureCallback<JsonObject>() {
                     @Override
                     public void onCompleted(Exception e, JsonObject result) {
+                        enableButton();
                         if(result == null){
                             showInformation(getString(R.string.please_check_your_internet),true);
-                            enableButton();
                             return;
                         }
                         RoomBack mRoomsBack = JsonTree.fromJson(result, RoomBack.class);
@@ -205,7 +205,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
                             showInformation(getString(R.string.report_success),false);
                         }else{
                             showInformation(mRoomsBack.getMessage_info(),true);
-                            enableButton();
                         }
                     }
 
@@ -275,5 +274,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         superToast.setTextSize(SuperToast.TextSize.LARGE);
         superToast.setText(messageInfo);
         superToast.show();
+        findViewById(R.id.login).setEnabled(true);
     }
 }
