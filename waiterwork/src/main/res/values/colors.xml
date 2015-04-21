@@ -19,6 +19,6 @@
 
     <color name="reser_color">#CCCCCC</color>
     <color name="middle_horizontal_line">#DA9D49</color>
-
+    <color name="transpant">#00000000</color>
     <color name="floor_color">#98CD00</color>
 </resources>

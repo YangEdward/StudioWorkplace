@@ -79,6 +79,8 @@ public class FloorHeaderAdapter extends BookBaseAdapter implements
 				case FinalValue.IDLE:
 					v.setBackground(mContext.getResources().getDrawable(R.drawable.room_background));
 					break;
+                default:
+                        break;
 				}
 			}
 			return v;

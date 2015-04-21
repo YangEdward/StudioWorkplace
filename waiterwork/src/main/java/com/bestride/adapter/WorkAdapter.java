@@ -15,7 +15,6 @@ import com.bestride.data.helper.DespatchWork;
 import com.bestride.data.helper.JsonTree;
 import com.bestride.data.helper.WorkDetail;
 import com.bestride.data.post.HandlePost;
-import com.bestride.fragment.MyWorkFragment_;
 import com.bestride.helper.FinalValue;
 import com.bestride.view.RippleView;
 import com.bestride.waiterwork.HotelApplication;
@@ -28,7 +27,7 @@ import com.ygledward.ion.Ion;
 import java.util.List;
 
 public class WorkAdapter extends BookBaseAdapter {
-
+	
 	private Context mContext;
 	private LayoutInflater inflater = null;
 	public WorkAdapter(List<Object> mData,Context mContext) {
@@ -40,7 +39,7 @@ public class WorkAdapter extends BookBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if(getItem(position) instanceof WorkDetail){
+		if(getItem(position) instanceof DespatchWork){
 			View v = convertView;
 			ViewHolder holder;
 			if(v == null){
@@ -56,18 +55,22 @@ public class WorkAdapter extends BookBaseAdapter {
 			}else{
 				holder = (ViewHolder) v.getTag();
 			}
-            DespatchWork mWork = (DespatchWork) getItem(position);
+			DespatchWork mWork = (DespatchWork) getItem(position);
+
 			holder.roomNumber.setText(mWork.getRoomno());
             holder.workTime.setText(mWork.getBegintime());
+            //holder.workContent.setText(""+mWork.getServtype());
             if(mWork.getServtype() == FinalValue.CHECK_OUT){
                 holder.workImage.setImageDrawable(mContext.getResources().
                         getDrawable(R.drawable.check_out));
-                holder.workContent.setText(mContext.getResources().getString(R.string.check_out));
+                holder.workContent.setText(mContext.getResources().
+                        getString(R.string.check_out));
                 holder.rippleView.setVisibility(View.GONE);
-            }else if(mWork.getServtype() == FinalValue.CLEAN){
+            }else{
+                holder.workContent.setText(mContext.getResources().
+                        getString(R.string.clean));
                 holder.workImage.setImageDrawable(mContext.getResources().
                         getDrawable(R.drawable.clean));
-                holder.workContent.setText(mContext.getResources().getString(R.string.clean));
                 holder.workFinished.setOnClickListener(new HandleClickListener(position));
             }
 			return v;
@@ -95,9 +98,9 @@ public class WorkAdapter extends BookBaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-            final DespatchWork mWork = (DespatchWork) getItem(position);
+            DespatchWork mWork = (DespatchWork) getItem(position);
 			JsonObject json = JsonTree.toJson(new HandlePost(mWork.getWorkid(),
-					mWork.getHoteltype(), HotelApplication.sessionId,0));
+					mWork.getHoteltype(), HotelApplication.sessionId,1));
 			Ion.with(mContext)
 			.load(FinalValue.HANDLE_POST)
 			.setJsonObjectBody(json)
@@ -119,15 +122,14 @@ public class WorkAdapter extends BookBaseAdapter {
 				   final BillBack response = JsonTree.fromJson(result, BillBack.class);
 				   if(response.isSuccess()){
 					   remove(position);
-                       MyWorkFragment_.workIds.remove(mWork.getWorkid());
-                       ((Activity) mContext).runOnUiThread(new Runnable() {
-                           @Override
-                           public void run() {
-                               notifyDataSetChanged();
-                               showInformation(mContext.getString(
-                                       R.string.handle_success), false);
-                           }
-                       });
+					   ((Activity)mContext).runOnUiThread(new Runnable() {
+						   @Override
+							public void run() {
+							   	notifyDataSetChanged();
+								showInformation(mContext.getString(
+									   R.string.handle_success),false);
+							}
+					   });
                        notifyDataSetChanged();
 				   }else{
 					   ((Activity)mContext).runOnUiThread(new Runnable() {

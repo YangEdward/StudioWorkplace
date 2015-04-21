@@ -37,21 +37,23 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-/**
- * Created by Administrator on 2015/1/8.
- */
 @EFragment(R.layout.my_work)
 public class MyWorkFragment extends BaseFragment implements View.OnClickListener,
         AdapterView.OnItemClickListener{
 
     @ViewById ListView recycleView;
     private WorkAdapter leftAdapter;
-    private List<Object> left = new ArrayList<>();
-    public static Set<String> workIds = new HashSet<>();
+    private List<Object> left = new ArrayList<Object>();
+    private  Set<String> workIds = new HashSet<String>();
     private static int checkOutNumber;
+    private BadgeView badge;
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMyWorks();
+    }
 
     @AfterViews void initViews(){
         leftAdapter = new WorkAdapter(left, getActivity());
@@ -60,7 +62,8 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         assert mSwingButton.getViewAnimator() != null;
         mSwingButton.getViewAnimator().setInitialDelayMillis(FinalValue.INITIAL_DELAY_MILLIS);
         recycleView.setAdapter(mSwingButton);
-        getMyWorks();
+        recycleView.setOnItemClickListener(this);
+        badge = new BadgeView(getActivity());
     }
 
     @Override
@@ -90,13 +93,14 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
                         }
                         RoomBack mRoomsBack = JsonTree.fromJson(result, RoomBack.class);
                         if(mRoomsBack.isSuccess()){
-                            if(mRoomsBack.getNumber() == 0){
-                                showInformation(getString(R.string.no_work),false);
-                                return;
-                            }
                             left.clear();
                             workIds.clear();
                             checkOutNumber = 0;
+                            if(mRoomsBack.getNumber() == 0){
+                                updateUi();
+                                showInformation(getString(R.string.no_work),false);
+                                return;
+                            }
                             JsonArray worksArray = result.getAsJsonArray(FinalValue.ROOM_ARRAY);
                             for(int i = 0; i < worksArray.size(); i++){
                                 DespatchWork works = JsonTree.fromJson(worksArray.get(i), DespatchWork.class);
@@ -124,9 +128,8 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
         getMyWorks();
     }
 
-    @UiThread void setTip(int value){
-        BadgeView badge = new BadgeView(getActivity());
-        MainActivity_.setInformationTip(badge,""+value);
+    @UiThread void setTip(String value){
+        MainActivity_.setInformationTip(badge,value);
     }
     @UiThread void showGetAgainView(){
     }
@@ -136,27 +139,28 @@ public class MyWorkFragment extends BaseFragment implements View.OnClickListener
 
     private void updateUi(){
         leftAdapter.notifyDataSetChanged();
-        if(checkOutNumber > 0){
-            setTip(checkOutNumber);
-        }
+        setTip(""+checkOutNumber);
     }
 
-    public void updateWork(MessageJsonBean.MessageObj message) {
+    public void updateWork(String content) {
         if(!detach){
             return;
         }
-        Log.e(MyWorkFragment.class.getSimpleName(), message.text);
-        String content = message.text.replace("&quot;", "\"");
+        //String content = message.text.replace("&quot;", "\"");
         if(content != null && !content.isEmpty()){
+            Log.e("content = ",content);
             WorkDetail workDetail = new Gson().fromJson(content, WorkDetail.class);
-            DespatchWork works = workDetail.getDatalist();
-            if(!workIds.contains(works.getWorkid())){
-                workIds.add(works.getWorkid());
-                left.add(works);
-                if(works.getServtype() == FinalValue.CHECK_OUT){
-                    checkOutNumber ++;
+            List<DespatchWork> works = workDetail.getDatalist();
+            for(DespatchWork work : works){
+                if(!workIds.contains(work.getWorkid())){
+                    workIds.add(work.getWorkid());
+                    left.add(work);
+                    if(work.getServtype() == FinalValue.CHECK_OUT){
+                        checkOutNumber ++;
+                    }
                 }
             }
+
             updateUi();
         }
 

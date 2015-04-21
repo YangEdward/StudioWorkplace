@@ -30,7 +30,7 @@ public class UIUtils {
         vibrator.vibrate(pattern, -1);
     }
     
-    public static int PlaySound(final Context context) { 
+    public static int playSound(final Context context) {
         NotificationManager mgr = (NotificationManager) context 
                 .getSystemService(Context.NOTIFICATION_SERVICE); 
         Notification nt = new Notification(); 

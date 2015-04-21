@@ -8,6 +8,10 @@ public class ReportPost {
 	private String session_id;
 	private int number;
 	private String rmroomid;
+    private String roomno;
+    private String realname;
+    private String userid;
+    private String hotelcode;
 	private String tradecode;
 	private String tradedesc;
     private int reportFlag;
@@ -57,5 +61,37 @@ public class ReportPost {
 
     public void setReportFlag(int reportFlag) {
         this.reportFlag = reportFlag;
+    }
+
+    public String getRoomno() {
+        return roomno;
+    }
+
+    public void setRoomno(String roomno) {
+        this.roomno = roomno;
+    }
+
+    public String getHotelcode() {
+        return hotelcode;
+    }
+
+    public void setHotelcode(String hotelcode) {
+        this.hotelcode = hotelcode;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

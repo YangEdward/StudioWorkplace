@@ -1,10 +1,13 @@
+
 package com.bestride.data.helper;
 
+import java.util.List;
+
 public class WorkDetail {
-	
-	private String datatype;
+
+    private String datatype;
     private String operate;
-	private DespatchWork datalist;
+    private List<DespatchWork> datalist;
 
     public String getDatatype() {
         return datatype;
@@ -22,11 +25,11 @@ public class WorkDetail {
         this.operate = operate;
     }
 
-    public DespatchWork getDatalist() {
+    public List<DespatchWork> getDatalist() {
         return datalist;
     }
 
-    public void setDatalist(DespatchWork datalist) {
+    public void setDatalist(List<DespatchWork> datalist) {
         this.datalist = datalist;
     }
 }

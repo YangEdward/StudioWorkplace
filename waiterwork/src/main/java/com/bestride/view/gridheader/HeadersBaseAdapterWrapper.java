@@ -367,7 +367,7 @@ public class HeadersBaseAdapterWrapper extends BaseAdapter {
      * 
      * @author Tonic Artos
      */
-    protected class FillerView extends View {
+    protected static class FillerView extends View {
         private View mMeasureTarget;
 
         public FillerView(Context context) {
@@ -451,11 +451,11 @@ public class HeadersBaseAdapterWrapper extends BaseAdapter {
         }
     }
 
-    protected class HeaderHolder {
+    protected static class HeaderHolder {
         protected View mHeaderView;
     }
 
-    protected class Position {
+    protected static class Position {
         protected int mHeader;
 
         protected int mPosition;

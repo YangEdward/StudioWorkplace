@@ -19,50 +19,52 @@ import com.kyleduo.icomet.message.Message.Content;
 
 public class MessageReceiver extends BroadcastReceiver {
 
-	private static String TAG = "MessageReceiver";
+    private static String TAG = "MessageReceiver";
 
-	public MessageReceiver() {
-	}
+    public MessageReceiver() {
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		if (!intent.getAction().equals(FinalValue.ACTION_MESSAGE_ARRIVED)) {
-			return;
-		}
-		Log.d(TAG, "message received in receiver");
-		
-		NotificationManager nm = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-		
-		Content content = (Content) intent.getSerializableExtra("content");
-		MessageObj message = new MessageObj(content);
-		
-		Intent i = new Intent(context.getApplicationContext(), MainActivity.class);
-		i.putExtra("with", message.from);
-		PendingIntent pi = PendingIntent.getActivity(context, getResultCode(), i,
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (!intent.getAction().equals(FinalValue.ACTION_MESSAGE_ARRIVED)) {
+            return;
+        }
+        Log.d(TAG, "message received in receiver");
+
+        NotificationManager nm = (NotificationManager) context.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //Content content = (Content) intent.getSerializableExtra("content");
+        //MessageObj message = new MessageObj(content);
+        String content = intent.getStringExtra("content");
+        Intent i = new Intent(context.getApplicationContext(), MainActivity.class);
+        //i.putExtra("with", message.from);
+        i.putExtra("with", "admin");
+        PendingIntent pi = PendingIntent.getActivity(context, getResultCode(), i,
                 Intent.FILL_IN_ACTION);
-		
-		String detail = message.text.replace("&quot;", "\"");
-		WorkDetail works = new Gson().fromJson(detail, WorkDetail.class);
+
+        //String detail = message.text.replace("&quot;", "\"");
+        WorkDetail works = new Gson().fromJson(content, WorkDetail.class);
         String doing = "";
-        if(works.getDatalist().getServtype() == FinalValue.CHECK_OUT){
+        if(works.getDatalist().get(0).getServtype() == FinalValue.CHECK_OUT){
             doing = context.getApplicationContext().getString(R.string.check_out);
-        }else if (works.getDatalist().getServtype() == FinalValue.CLEAN){
+        }else if (works.getDatalist().get(0).getServtype() == FinalValue.CLEAN){
             doing = context.getApplicationContext().getString(R.string.clean);
         }
-		Notification notification = new Notification.Builder(context.getApplicationContext())
-		.setWhen(System.currentTimeMillis())
-		.setSmallIcon(R.drawable.ic_launcher)
+        Notification notification = new Notification.Builder(context.getApplicationContext())
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_launcher)
 //		.setContentTitle(message.from)
-		.setContentTitle(works.getDatalist().getRoomno())
+                .setContentTitle(works.getDatalist().get(0).getRoomno())
 //		.setContentText(message.text)
-		.setContentText(doing)
-		.setTicker(context.getString(R.string.dispatch_message))
-		.setContentIntent(pi)
-		.setDefaults(Notification.DEFAULT_ALL)
-		.setAutoCancel(true)
-		.build();
+                .setContentText(doing)
+                .setTicker(context.getString(R.string.dispatch_message))
+                .setContentIntent(pi)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setAutoCancel(true)
+                .build();
 
-		nm.notify(0, notification);
-		abortBroadcast();
-	}
+        nm.notify(0, notification);
+        abortBroadcast();
+    }
 }

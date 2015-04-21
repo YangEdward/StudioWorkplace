@@ -126,7 +126,7 @@ public class HeadersSimpleAdapterWrapper extends BaseAdapter implements
         }
     }
 
-    private class HeaderData {
+    private static class HeaderData {
         private int mCount;
 
         private int mRefPosition;

@@ -36,12 +36,13 @@ public class FinalValue {
 	
 	/*internet connect*/
 	public static final int SUCCESS_CODE = 20;
-//	private static final String IP_ADDRESS = "http://192.168.2.160:9090/shmp/pms/";
+//	private static final String IP_ADDRESS = "http://192.168.2.114:9090/shmp/pms/";
 	private static final String IP_ADDRESS = "http://192.168.2.200:8081/shmp/pms/";
 	public static final String BASE_URL = IP_ADDRESS + "fm/PAD/";
 	private static final String ROOM_URL = IP_ADDRESS + "rm/roomPAD/";
-	
-	public static final String LOGIN_POST = IP_ADDRESS + "cm/PAD/" + "pad_login.page";
+    public static final String NOTI_BASE_URl = "http://192.168.2.200:8100/poll";
+//    public static final String NOTI_BASE_URl = "http://www.ideawu.com/icomet/chat";
+    public static final String LOGIN_POST = IP_ADDRESS + "cm/PAD/" + "pad_login.page";
 	
 	public static final String GET_ROOMS_POST = ROOM_URL + "app_get_rm_room.page";
 
@@ -52,8 +53,10 @@ public class FinalValue {
 	public static final String HANDLE_POST = ROOM_URL + "app_set_rm_dispatching.page";
 	public static final String GET_WORK_POST = ROOM_URL + "app_get_rm_dispatching.page";
 
-	public static final String REPORT_POST = BASE_URL + "app_post_fm_reportbar.page";
-	public static final String REPORT_TRADE_CODE = "200";
+	//public static final String REPORT_POST = BASE_URL + "app_post_fm_reportbar.page";
+    public static final String REPORT_POST = IP_ADDRESS + "cm/PAD/" + "pad_minibar_report.page";
+
+    public static final String REPORT_TRADE_CODE = "200";
 	public static final String REPORT_TRADE_DESC = "客房迷你吧";
 	public static final String GET_GOODS_POST = IP_ADDRESS + "cm/PAD/" + "app_get_goods.page";
 	public static final String MINI_POSID = "200";
@@ -63,14 +66,17 @@ public class FinalValue {
 	public static final long EXIT_TIME = 2000;
 	
 	/*work status */
-	public static final int UNFINISHED = 2; //
-	public static final int FINISHED = 3; //
+    public static final int CHECK_OUT = 10; //
+    public static final int CLEAN = 3; //
 
-	
+    public static final int SMALL_DISH = 1;
+    public static final int MID_DISH = 2;
+    public static final int BIG_DISH = 3;
+
 	/*for notification*/
-	public static String ACTION_MESSAGE_ARRIVED = "com.bestride.action.MESSAGE_ARRIVED";
+	public static final String ACTION_MESSAGE_ARRIVED = "com.bestride.action.MESSAGE_ARRIVED";
 	
-	public static void HideKeyboard(View v){
+	public static void hideKeyboard(View v){
 		
 		InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );     
 		if ( imm.isActive( ) ) {     

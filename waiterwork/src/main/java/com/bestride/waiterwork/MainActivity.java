@@ -9,9 +9,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.bestride.comet.ICometService;
-import com.bestride.data.helper.MessageJsonBean;
 import com.bestride.fragment.MyWorkFragment_;
 import com.bestride.fragment.ReportFragment_;
 import com.bestride.helper.FinalValue;
@@ -20,7 +20,6 @@ import com.bestride.pageindicator.IconPagerAdapter;
 import com.bestride.pageindicator.TabPageIndicator;
 import com.bestride.view.BadgeView;
 import com.github.johnpersano.supertoasts.SuperToast;
-import com.kyleduo.icomet.message.Message;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.ygledward.ion.Ion;
@@ -37,7 +36,8 @@ import org.apache.http.Header;
 public class MainActivity extends FragmentActivity{
 
     @ViewById ViewPager pager;
-    @ViewById static TabPageIndicator indicator;
+    @ViewById TabPageIndicator indicator;
+    private static View view;
     private MyWorkFragment_ myWork;
     private InnerMessageReceiver mReceiver;
 
@@ -58,6 +58,7 @@ public class MainActivity extends FragmentActivity{
         indicator = (TabPageIndicator)findViewById(R.id.indicator);
         indicator.setBackgroundColor(getResources().getColor(R.color.tab_title_color));
         indicator.setViewPager(pager);
+        view = indicator.getTabView(0);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class MainActivity extends FragmentActivity{
     }
 
     public static void setInformationTip(BadgeView badge,String value){
-        badge.setTargetView(indicator.getTabView(0));
+        badge.setTargetView(view);
         badge.setText(value);
     }
 
@@ -125,8 +126,7 @@ public class MainActivity extends FragmentActivity{
             exitTime = System.currentTimeMillis();
         } else {
             Ion.getDefault(this).getCookieMiddleware().clear();
-            logout();
-            //super.onBackPressed();
+            super.onBackPressed();
         }
     }
 
@@ -149,11 +149,12 @@ public class MainActivity extends FragmentActivity{
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Message.Content content = (Message.Content) intent.getSerializableExtra("content");
-            MessageJsonBean.MessageObj message = new MessageJsonBean.MessageObj(content);
-            UIUtils.PlaySound(MainActivity.this);
-            synchronized (message) {
-                myWork.updateWork(message);
+            //Message.Content content = (Message.Content) intent.getSerializableExtra("content");
+            //MessageJsonBean.MessageObj message = new MessageJsonBean.MessageObj(content);
+            String content = intent.getStringExtra("content");
+            UIUtils.playSound(MainActivity.this);
+            synchronized (this) {
+                myWork.updateWork(content);
             }
             abortBroadcast();
         }

@@ -33,27 +33,13 @@ public class ReportFragment extends BaseFragment implements AdapterView.OnItemCl
     @ViewById
     GridView floorStatus;
     private FloorHeaderAdapter mAdapter;
-    private List<Object> rooms = new ArrayList<>();
+    private List<Object> rooms = new ArrayList<Object>();
 
 
     @AfterViews void initViews(){
         floorStatus.setOnItemClickListener(this);
         mAdapter = new FloorHeaderAdapter(rooms, getActivity());
         floorStatus.setAdapter(mAdapter);
-        /*for (int i = 0; i<20; i++){
-            rooms.add(new Room());
-        }
-        for (int i = 0; i<20; i++){
-            Room room = new Room();
-            room.setFloor(11);
-            rooms.add(room);
-        }
-        for (int i = 0; i<20; i++){
-            Room room = new Room();
-            room.setFloor(12);
-            rooms.add(room);
-        }
-        mAdapter.notifyDataSetChanged();*/
         getRoomInformation();
     }
 

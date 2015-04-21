@@ -31,7 +31,7 @@
     <string name="has_no_room_to_check_out">当前无可报吧房间.</string>
     <string name="get_data_error">数据获取失败,请检查您的网络连接</string>
     <string name="get_data_again">重新获取</string>
-    <string name="please_input_values">请输入数量或金额：</string>
+    <string name="please_input_values">请输入数量：</string>
     <string name="please_conform_report">请确定是否提交报吧.</string>
     <string name="report_success">报吧成功</string>
     <string name="mini_detail">房报吧明细</string>
@@ -39,6 +39,7 @@
     <!-- work -->
     <string name="please_check_your_internet">请确认您的网络连接</string>
     <string name="handle_success">处理成功</string>
+    <string name="please_input_correct_number">请输入正确的数字</string>
     <string name="no_work">当前时间无任务</string>
 
     <!-- work list -->

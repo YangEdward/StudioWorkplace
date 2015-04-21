@@ -34,7 +34,6 @@
         android:layout_marginTop="-2dp"
         android:background="@drawable/login_text_bottom"
         android:hint="@string/key"
-        android:inputType="textPassword"
         android:paddingLeft="@dimen/logo_text_padding_left"/>
     <ImageView
         style="@style/LoginImage"

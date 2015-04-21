@@ -47,7 +47,12 @@ public class MessageJsonBean implements Serializable {
 			return false;
 		}
 
-		@Override
+        @Override
+        public int hashCode() {
+            return id.hashCode();
+        }
+
+        @Override
 		public String toString() {
 			return "MessageObj [time=" + time + ", from=" + from + ", text=" + text + ", id=" + id + ", unread=" + unread + "]";
 		}

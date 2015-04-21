@@ -1174,7 +1174,7 @@ public class HeadersGridView extends GridView implements OnScrollListener,
         }
     }
 
-    class RuntimePlatformSupportException extends RuntimeException {
+    static class RuntimePlatformSupportException extends RuntimeException {
         private static final long serialVersionUID = -6512098808936536538L;
 
         public RuntimePlatformSupportException(Exception e) {

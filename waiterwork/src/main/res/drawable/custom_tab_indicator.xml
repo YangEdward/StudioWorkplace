@@ -16,10 +16,16 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Non focused states -->
-   <!-- <item android:state_focused="false"
+ <!--   <item android:state_focused="false"
         android:state_selected="false"
         android:state_pressed="false"
-        android:drawable="@drawable/custom_tab_indicator_unselected" />-->
+        android:drawable="@color/transpant"/>
+
+    <item android:state_selected="false"
+        android:state_pressed="false"
+        android:drawable="@color/transpant"/>-->
+
+        //android:drawable="@drawable/custom_tab_indicator_unselected" />
     <item android:state_focused="false"
         android:state_selected="true"
         android:state_pressed="false"
@@ -27,10 +33,11 @@
         <!--android:drawable="@drawable/custom_tab_indicator_selected"-->
 
     <!-- Focused states -->
-<!--    <item android:state_focused="true"
+   <!-- <item android:state_focused="true"
         android:state_selected="false"
         android:state_pressed="false"
-        android:drawable="@drawable/custom_tab_indicator_unselected_focused" />-->
+        android:drawable="@color/transpant"/>-->
+        //android:drawable="@drawable/custom_tab_indicator_unselected_focused" />
     <item android:state_focused="true"
         android:state_selected="true"
         android:state_pressed="false"
@@ -38,20 +45,22 @@
 
     <!-- Pressed -->
     <!--    Non focused states -->
-<!--    <item android:state_focused="false"
+    <!--<item android:state_focused="false"
         android:state_selected="false"
         android:state_pressed="true"
-        android:drawable="@drawable/custom_tab_indicator_unselected_pressed" />-->
+        android:drawable="@color/transpant"/>-->
+        //android:drawable="@drawable/custom_tab_indicator_unselected_pressed" />
     <item android:state_focused="false"
         android:state_selected="true"
         android:state_pressed="true"
         android:drawable="@drawable/tab_tip" />
 
     <!--    Focused states -->
-<!--    <item android:state_focused="true"
+    <!--<item android:state_focused="true"
         android:state_selected="false"
         android:state_pressed="true"
-        android:drawable="@drawable/custom_tab_indicator_unselected_pressed" />-->
+        android:drawable="@color/transpant"/>-->
+        //android:drawable="@drawable/custom_tab_indicator_unselected_pressed" />
     <item android:state_focused="true"
         android:state_selected="true"
         android:state_pressed="true"

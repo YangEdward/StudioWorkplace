@@ -26,7 +26,6 @@ import com.google.gson.JsonObject;
 import com.nhaarman.listviewanimations.appearance.simple.SwingRightInAnimationAdapter;
 import com.ygledward.async.future.FutureCallback;
 import com.ygledward.ion.Ion;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.SystemService;
@@ -48,14 +47,13 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     WindowManager windowManager;
     //@Extra(FinalValue.REPORT_DETAIL)
     private Room roomDetail;
-    private List<Object> miniBar = new ArrayList<>();
+    private List<Object> miniBar = new ArrayList<Object>();
     private MiniAdapter miniAdapter;
-    private List<ReportDetail> detail = new ArrayList<>();
+    private List<ReportDetail> detail = new ArrayList<ReportDetail>();
     private int reportFlag = 0;
 
     @AfterViews void initViews(){
         getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.bar_background));
-
         normalReport.setOnClickListener(this);
         normalReport.setEnabled(false);
         right.setClickable(false);
@@ -67,11 +65,6 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         recycleView.setOnItemClickListener(this);
         roomDetail = getIntent().getParcelableExtra(FinalValue.REPORT_DETAIL);
         setTitle(roomDetail.getRoomno()+getString(R.string.mini_detail));
-        /*for (int i = 0; i<20; i++){
-            miniBar.add(new Goods());
-        }
-
-        miniAdapter.notifyDataSetChanged();*/
         getDetails();
     }
 
@@ -124,7 +117,9 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
             Goods good = (Goods) miniBar.get(i);
             if(good.getNumber() != 0){
                 ReportDetail reportChild = new ReportDetail(good.getGoodsname()
-                        + "_" + good.getNumber(), (good.getSmallprice() * good.getNumber()));
+                        + "_" + good.getNumber(), good.getNumber());
+                reportChild.setBillid(good.getId());
+                reportChild.setPosid(good.getPosid());
                 detail.add(reportChild);
             }
         }
@@ -141,8 +136,12 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 reportFlag = FinalValue.NORMAL_REPORT;
+                submitConform();
+                break;
             case R.id.overReport:
                 submitConform();
+                break;
+            default:
                 break;
         }
     }
@@ -179,10 +178,15 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     private void submitPost(){
         normalReport.setEnabled(false);
         ReportPost report = new ReportPost();
+        HotelApplication app = (HotelApplication)getApplication();
+        report.setRealname(app.getUserName());
+        report.setUserid(app.getUserId());
         report.setReportFlag(reportFlag);
         report.setBillArray(detail);
         report.setNumber(detail.size());
         report.setRmroomid(roomDetail.getRoomid());
+        report.setRoomno(roomDetail.getRoomno());
+        report.setHotelcode(app.getHotelcode());
         report.setSession_id(HotelApplication.sessionId);
         report.setTradecode(FinalValue.REPORT_TRADE_CODE);
         report.setTradedesc(FinalValue.REPORT_TRADE_DESC);
@@ -231,13 +235,13 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         ((TextView)dialog.findViewById(R.id.title)).setText(good.getGoodsname());
         dialog.show();
         final EditText value = (EditText) dialog.findViewById(R.id.value);
-        value.setInputType(InputType.TYPE_CLASS_NUMBER);
+        value.setInputType(InputType.TYPE_NUMBER_FLAG_SIGNED);
         value.setHint(R.string.please_input_values);
         dialog.findViewById(R.id.DialogCancel).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                FinalValue.HideKeyboard(value);
+                FinalValue.hideKeyboard(value);
                 dialog.dismiss();
             }
         });
@@ -249,13 +253,18 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
                 if(num.isEmpty()){
                     return;
                 }
-                int number = Integer.parseInt(num);
+                int number = 0;
+                try {
+                    number = Integer.parseInt(num);
+                }catch (Exception e){
+                    showInformation(getString(R.string.please_input_correct_number),true);
+                }
                 good.setNumber(number);
                 if(number != 0){
                     normalReport.setEnabled(true);
                 }
                 miniAdapter.notifyDataSetChanged();
-                FinalValue.HideKeyboard(value);
+                FinalValue.hideKeyboard(value);
                 dialog.dismiss();
             }
         });
@@ -274,6 +283,5 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         superToast.setTextSize(SuperToast.TextSize.LARGE);
         superToast.setText(messageInfo);
         superToast.show();
-        findViewById(R.id.login).setEnabled(true);
     }
 }

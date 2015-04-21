@@ -1,10 +1,13 @@
 package com.bestride.data.helper;
 
+import com.bestride.helper.FinalValue;
+
 public class ReportDetail {
 	private String tradenote;
 	private double amount;
-    private String posid;
     private String billid;
+    private int dishtype = FinalValue.SMALL_DISH;
+    private String posid;
 	
 	public ReportDetail(String tradenote, double amount) {
 		super();
@@ -24,6 +27,14 @@ public class ReportDetail {
 		this.amount = amount;
 	}
 
+    public String getBillid() {
+        return billid;
+    }
+
+    public void setBillid(String billid) {
+        this.billid = billid;
+    }
+
     public String getPosid() {
         return posid;
     }
@@ -32,11 +43,11 @@ public class ReportDetail {
         this.posid = posid;
     }
 
-    public String getBillid() {
-        return billid;
+    public int getDishtype() {
+        return dishtype;
     }
 
-    public void setBillid(String billid) {
-        this.billid = billid;
+    public void setDishtype(int dishtype) {
+        this.dishtype = dishtype;
     }
 }

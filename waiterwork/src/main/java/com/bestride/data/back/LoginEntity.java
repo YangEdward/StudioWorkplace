@@ -10,7 +10,9 @@ public class LoginEntity {
 	private int messageCode;
 	private String messageInfo;
 	private String realname;
+    private String userId;
 	private String sessionId;
+    private String hotelcode;
 	private Map<String,MenuItemU> menuPermissions;
 	private Map<String,List<String>> rmPermissions;
 	
@@ -52,7 +54,24 @@ public class LoginEntity {
 	public void setRmPermissions(Map<String, List<String>> rmPermissions) {
 		this.rmPermissions = rmPermissions;
 	}
-	public boolean isSuccess(){
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getHotelcode() {
+        return hotelcode;
+    }
+
+    public void setHotelcode(String hotelcode) {
+        this.hotelcode = hotelcode;
+    }
+
+    public boolean isSuccess(){
 		if(messageCode == FinalValue.SUCCESS_CODE){
 			return true;
 		}else{

@@ -10,8 +10,12 @@ import com.bestride.data.back.LoginEntity;
 import com.bestride.data.helper.JsonTree;
 import com.bestride.data.post.LoginPost;
 import com.bestride.helper.FinalValue;
+import com.bestride.helper.SPUtils;
 import com.bestride.view.RippleView;
 import com.google.gson.JsonObject;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.ygledward.async.future.FutureCallback;
 import com.ygledward.ion.Ion;
 
@@ -19,9 +23,10 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.apache.http.Header;
 
 @EActivity(R.layout.login)
-public class LoginActivity extends BaseActivity implements OnClickListener {//,TextWatcher{
+public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @ViewById(R.id.LoginName) EditText name;
     @ViewById(R.id.LoginPassword) EditText password;
@@ -32,9 +37,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
     }
 	@AfterViews void initView(){
 		findViewById(R.id.login).setOnClickListener(this);
-		//name.addTextChangedListener(this);
-		name.setText("admin");
-		password.setText("123456");
 	}
 
     @Override
@@ -78,9 +80,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
 			   }
 			   LoginEntity response = JsonTree.fromJson(result, LoginEntity.class);
 			   if(response.isSuccess()){
-				   HotelApplication app = HotelApplication.getInstance();
+				   HotelApplication app = (HotelApplication)getApplication();
 				   app.setUserCode(name.getText().toString().trim());
 				   app.setUserName(response.getRealname());
+                   app.setUserId(response.getUserId());
+                   app.setHotelcode(response.getHotelcode());
 				   HotelApplication.sessionId = response.getSessionId();
 				   if(response.getRmPermissions().isEmpty()){
 					   HotelApplication.isLeader = false;
@@ -90,8 +94,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
 				   }
 				   app.setManHotel(true);
 				   app.setDispatch(true);
-                   turnToMainActivity(response.getMessageInfo());
-				   //loginSuccess(response.getMessageInfo());
+				   loginSuccess(response.getMessageInfo());
+                   //turnToMainActivity(response.getMessageInfo());
 			   }else{
 				   showInformation(response.getMessageInfo(),true);
 			   }
@@ -101,100 +105,43 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
 
     @UiThread
 	void loginSuccess(String infor){
-		/*SharedPreferences sp = getSharedPreferences(FinalValue.BOOK_HOTEL,
-				Context.MODE_PRIVATE);
-		String key = name.getText().toString();
-		Editor mE = sp.edit();
-		if(isRemember.isChecked()){
-			mE.putString(key, password.getText().toString());
-			mE.commit();
-		}else{
-			if (sp.getString(key, null) != null) {
-				mE.remove(key);
-				mE.commit();
-			}
-		}*/
 		findViewById(R.id.login).setEnabled(true);
-//		HotelApplication app = HotelApplication.getInstance();
+		//HotelApplication app = (HotelApplication)getApplication();
 		turnToMainActivity(infor);
-//		doLogin(app.getUserCode(),infor);
-//		HotelApplication app = HotelApplication.getInstance();
-//		if(app.isManHotel()){
-//			startActivity(new Intent(this,BookHotelActivity_.class));
-//		}else if(app.isDispatch()){
-//			startICometService(app.getUserName());
-//			startActivity(new Intent(this,DispatchActivity_.class));
-//		}else{
-//			showInformation(getString(R.string.has_no_permision),true);
-//		}
+		//doLogin(app.getUserCode(),infor);
 	}
 	
-
-
-	/*@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
-		
-	}
-
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		SharedPreferences sp = getSharedPreferences(FinalValue.BOOK_HOTEL, 
-				Context.MODE_PRIVATE);
-		String paw = sp.getString(name.getText().toString(), null);
-		if(paw != null){
-			password.setText(paw);
-			*//*isRemember.setChecked(true);*//*
-		}
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-		
-	}*/
-	
-	private void startICometService(String uname) {
+	private void startICometService(String cname) {
 		Intent service = new Intent(getApplicationContext(), ICometService.class);
-		service.putExtra("uname", uname);
+		service.putExtra("cname", cname);
 		getApplication().startService(service);
 	}
 
     @UiThread
 	void turnToMainActivity(String infor){
-		HotelApplication app = HotelApplication.getInstance();
-		startICometService(app.getUserCode());
+		HotelApplication app = (HotelApplication)getApplication();
+		//startICometService(app.getUserCode());
+        startICometService(app.getUserId());
 		showInformation(infor,false);
 		startActivity(new Intent(this,MainActivity_.class));
 	}
-	/*protected void doLogin(final String uname,final String infor) {
-//		mProgressDialog = UIUtils.showProgressDialog(LoginActivity.this, "");
+	protected void doLogin(final String cname,final String infor) {
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.setEnableRedirects(false);
 		RequestParams params = new RequestParams();
-		params.put("uname", uname);
-		client.post(LoginActivity.this, FinalValue.NOTI_BASE_URL + "/login.php", params, new AsyncHttpResponseHandler() {
+		params.put("cname", cname);
+        params.put("seq",0);
+		client.get(LoginActivity.this, FinalValue.NOTI_BASE_URl/* + "/login.php"*/,params,
+                 new AsyncHttpResponseHandler() {
 			@Override
 			public void onSuccess(int arg0, Header[] arg1, byte[] arg2) {
 				super.onSuccess(arg0, arg1, arg2);
-//				dismissDialog();
-				*//*for (Header h : arg1) {
-					Log.d("SU_HEADER: ", "name: " + h.getName() + "  value: " + h.getValue());
-				}
-				Log.d("success content: ", new String(arg2));*//*
-//				Log.d(TAG, "success");
 				String cookie;
 				for (Header h : arg1) {
-//					Log.d(TAG, "HEADER_NAME: " + h.getName());
 					if (h.getName().equalsIgnoreCase("SET-COOKIE")) {
 						String value = h.getValue();
 						cookie = value.substring(0, value.indexOf(";")).trim();
-//						try {
-//							Log.d(TAG, URLDecoder.decode(URLDecoder.decode(cookie, "utf-8"), "utf-8"));
-//						} catch (UnsupportedEncodingException e) {
-//							e.printStackTrace();
-//						}
 						SPUtils.putString(getApplicationContext(), "cookie", cookie);
-//						((CSApplication) getApplication()).uname = uname;
 					}
 				}
 				turnToMainActivity(infor);
@@ -210,11 +157,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {//,T
 				}
 
 				arg3.printStackTrace();
-//				dismissDialog();
-				Log.d("FAIL", "FAIL " + arg0);
 			}
 		});
 
-	}*/
+	}
 
 }

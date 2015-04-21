@@ -4,25 +4,22 @@ import android.app.Application;
 
 public class HotelApplication extends Application {
 
-	private static HotelApplication app; 
 	private boolean isDispatch = false;
 	private boolean isManHotel = false;
 	public static String sessionId;
 	private String userName;
 	private String userCode;
+    private String userId;
 	private String hotelcode;
 	public static boolean isLeader = false;
 	private int role;
-	
-	public static HotelApplication getInstance(){
-		return app;
-	}
+
 	
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-		app = this;
+		//app = this;
 	}
 
 	@Override
@@ -77,5 +74,12 @@ public class HotelApplication extends Application {
 	public void setUserCode(String userCode) {
 		this.userCode = userCode;
 	}
-	
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
