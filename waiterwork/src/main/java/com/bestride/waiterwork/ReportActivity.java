@@ -182,6 +182,7 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         HotelApplication app = (HotelApplication)getApplication();
         report.setRealname(app.getUserName());
         report.setUserid(app.getUserId());
+        
         report.setReportFlag(reportFlag);
         report.setBillArray(detail);
         if(detail.size() == 0){
