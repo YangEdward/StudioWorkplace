@@ -53,7 +53,7 @@ public class FinalValue {
 	public static final String HANDLE_POST = ROOM_URL + "app_set_rm_dispatching.page";
 	public static final String GET_WORK_POST = ROOM_URL + "app_get_rm_dispatching.page";
 
-	//public static final String REPORT_POST = BASE_URL + "app_post_fm_reportbar.page";
+	public static final String REPORT_POST_NONE = BASE_URL + "app_post_fm_reportbar.page";
     public static final String REPORT_POST = IP_ADDRESS + "cm/PAD/" + "pad_minibar_report.page";
 
     public static final String REPORT_TRADE_CODE = "200";

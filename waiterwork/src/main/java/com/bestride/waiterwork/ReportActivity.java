@@ -178,11 +178,15 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
     private void submitPost(){
         normalReport.setEnabled(false);
         ReportPost report = new ReportPost();
+        String url = FinalValue.REPORT_POST;
         HotelApplication app = (HotelApplication)getApplication();
         report.setRealname(app.getUserName());
         report.setUserid(app.getUserId());
         report.setReportFlag(reportFlag);
         report.setBillArray(detail);
+        if(detail.size() == 0){
+            url = FinalValue.REPORT_POST_NONE;
+        }
         report.setNumber(detail.size());
         report.setRmroomid(roomDetail.getRoomid());
         report.setRoomno(roomDetail.getRoomno());
@@ -192,7 +196,7 @@ public class ReportActivity extends BaseActivity implements View.OnClickListener
         report.setTradedesc(FinalValue.REPORT_TRADE_DESC);
         JsonObject json = JsonTree.toJson(report);
         Ion.with(this)
-                .load(FinalValue.REPORT_POST)
+                .load(url)
                 .setJsonObjectBody(json)
                 .asJsonObject()
                 .setCallback(new FutureCallback<JsonObject>() {
